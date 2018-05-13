@@ -1,0 +1,10 @@
+[Unit]
+Description=LXD metric collector
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/local/sbin/lxd2influx.py
+
+[Install]
+WantedBy=multi-user.target
