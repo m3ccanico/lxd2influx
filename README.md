@@ -1,14 +1,20 @@
 # lxd2influx
 
-Reads performance data from local LXD (CPU, memroy, interface statistic) and writes them into InfluxDB.
+Reads performance data from local LXD (CPU jiffies, memory usage, bytes sent/received) and writes them to InfluxDB.
 
 
 ## Install libraries
 
-With Packages
+### Packages
+
+There is no Debian package for nsenter in the default repositories. 
+
 ```bash
-apt install python3-pylxd python3-influxdb
+apt install python3-pylxd python3-influxdb 
+pip3 install nsenter
 ```
+
+### PIP
 
 With PIP:
 ```bash
@@ -19,7 +25,7 @@ or
 pip3 install -r requirements.txt
 ```
 
-## Install service
+## Install script as a service
 
 ```bash
 cp lxd2influx.py /usr/local/sbin/
