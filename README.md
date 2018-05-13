@@ -36,6 +36,8 @@ systemctl status lxd2influx.service
 
 ## Run
 
+In case you would like to run the script manually and not as a service. 
+
 The script needs to run as root to access the different container namespaces.
 
 ```bash
@@ -46,4 +48,3 @@ nohup ./lxd2influx.py &
 
 * Remove dependency on pylxd, just read the folders under `cgroup/lxc` instead.
 * Put settings into config file
-* Create proper da
