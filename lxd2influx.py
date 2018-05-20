@@ -18,14 +18,9 @@ import time
 import platform
 import subprocess
 
-import pprint
-pp = pprint.PrettyPrinter(indent=2)
-
-#from pylxd import Client
 from influxdb import InfluxDBClient
 from datetime import datetime
 from pytz import timezone
-from nsenter import Namespace
 
 import requests
 import requests_unixsocket
@@ -106,7 +101,6 @@ def update_meassurement(hostname, influx, ts):
                         }
                     }
                     measurements.append(measurement)
-                    #pp.pprint(measurement)
                 
                 # Memory
                 usage_in_bytes = int(json['metadata']['memory']['usage'])
@@ -124,7 +118,6 @@ def update_meassurement(hostname, influx, ts):
                     }
                 }
                 measurements.append(measurement)
-                #pp.pprint(measurement)
                 
                 for interface in json['metadata']['network']:
                     # only include eth interfaces
@@ -147,7 +140,6 @@ def update_meassurement(hostname, influx, ts):
                         }
                         measurements.append(measurement)
     
-    #pp.pprint(measurements)
     influx.write_points(measurements)
 
 
