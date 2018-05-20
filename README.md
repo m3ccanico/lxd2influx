@@ -2,23 +2,11 @@
 
 Reads performance data from local LXD (CPU jiffies, memory usage, bytes sent/received) and writes them to InfluxDB.
 
-
 ## Install libraries
-
-### Packages
-
-There is no Debian package for nsenter in the default repositories. 
-
-```bash
-apt install python3-pylxd python3-influxdb 
-pip3 install nsenter
-```
-
-### PIP
 
 With PIP:
 ```bash
-pip3 install influxdb pylxd nsenter
+pip3 install influxdb requests requests_unixsocket
 ```
 or
 ```bash
@@ -52,5 +40,6 @@ nohup ./lxd2influx.py &
 
 ## Todo
 
-* Remove dependency on pylxd, just read the folders under `cgroup/lxc` instead.
-* Put settings into config file
+* Put settings into configuration file
+* Also track disk usage
+* Move hardcoded path to socket into configuration file
