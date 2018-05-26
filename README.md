@@ -41,5 +41,4 @@ nohup ./lxd2influx.py &
 ## Todo
 
 * Put settings into configuration file
-* Also track disk usage
 * Move hardcoded path to socket into configuration file

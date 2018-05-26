@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 INFLUX_DB_PORT = 8086
 INFLUX_DB_IP = '172.31.40.72'
 INFLUX_DB_NAME = 'lxd'
@@ -68,7 +67,9 @@ def update_meassurement(hostname, influx, ts):
         r = requests.get('http+unix://%2Fvar%2Flib%2Flxd%2Funix.socket/1.0/containers/{}/state'.format(container_name))
         if r.status_code == STATUS_SUCCESS:
             json = r.json()
-            #pp.pprint(json)
+            #import pprint
+            #pp = pprint.PrettyPrinter(indent=4)
+            #pp.pprint(json['metadata']['disk'])
             
             if int(json['metadata']['status_code']) == STATUS_RUNNING:
                 
@@ -80,6 +81,7 @@ def update_meassurement(hostname, influx, ts):
                     cpu_user = 0
                     cpu_system = 0
                     
+                    # parse file
                     for line in lines:
                         data = line.split()
                         if data[0] == "user":
@@ -104,8 +106,6 @@ def update_meassurement(hostname, influx, ts):
                 
                 # Memory
                 usage_in_bytes = int(json['metadata']['memory']['usage'])
-                
-                # create memory meassurement
                 measurement = {
                     "measurement": "memory",
                     "tags": {
@@ -119,10 +119,10 @@ def update_meassurement(hostname, influx, ts):
                 }
                 measurements.append(measurement)
                 
+                # network interfaces
                 for interface in json['metadata']['network']:
                     # only include eth interfaces
                     if re.match('^eth', interface):
-                        # create network meassurement
                         measurement = {
                             "measurement": "network",
                             "tags": {
@@ -139,6 +139,22 @@ def update_meassurement(hostname, influx, ts):
                             }
                         }
                         measurements.append(measurement)
+                
+                # disk
+                for disk in json['metadata']['disk']:
+                    measurement = {
+                        "measurement": "disk",
+                        "tags": {
+                            "host":      hostname,
+                            "container": container_name,
+                            "disk":      disk,
+                        },
+                        "time": ts_formated,
+                        "fields": {
+                            "usage":   json['metadata']['disk'][disk]['usage']
+                        }
+                    }
+                    measurements.append(measurement)
     
     influx.write_points(measurements)
 
