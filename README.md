@@ -13,7 +13,7 @@ or
 pip3 install -r requirements.txt
 ```
 
-## Install script as a service
+## Install the script as a service
 
 ```bash
 cp lxd2influx.py /usr/local/sbin/
@@ -28,7 +28,7 @@ Check status of service
 systemctl status lxd2influx.service
 ```
 
-## Run
+## Run the script manually
 
 In case you would like to run the script manually and not as a service. 
 
