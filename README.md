@@ -30,10 +30,9 @@ systemctl status lxd2influx.service
 
 ## Run the script manually
 
-In case you would like to run the script manually and not as a service. 
+In case you would like to run the script manually and not as a service. The user needs to have permission to read from the LXD Unix socket (member of the lxd group on Ubuntu).
 
-The script needs to run as root to access the different container namespaces.
-
+Run the script in the background and keep it running even if the current session closes:
 ```bash
 nohup ./lxd2influx.py &
 ```
